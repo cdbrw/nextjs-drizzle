@@ -1,33 +1,18 @@
 import Link from 'next/link';
 
-interface Post {
-  id: number;
-  title: string;
-  content: string;
-}
+import { db } from '@/db';
+import { posts } from '@/db/schema';
 
-const posts: Post[] = [
-  {
-    id: 1,
-    title: 'Subscribe to CodeBrew!',
-    content: 'For more content like this',
-  },
-  {
-    id: 2,
-    title: 'Like the video',
-    content: 'Helps the channel!',
-  },
-  {
-    id: 3,
-    title: 'Leave a comment',
-    content: "Let me know what else you'd like to see!",
-  },
-];
+export default async function PostsList() {
+  const blogPosts = await db.select().from(posts);
 
-export default function PostsList() {
+  if (blogPosts.length === 0) {
+    return <p>No posts found</p>;
+  }
+
   return (
     <ul>
-      {posts.map((post) => (
+      {blogPosts.map((post) => (
         <Link
           className="hover:underline ali"
           key={post.id}

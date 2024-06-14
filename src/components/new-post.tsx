@@ -1,6 +1,43 @@
+'use client';
+
+import { useRef } from 'react';
+
+import { PostSchema } from '@/lib/types';
+import { createPost } from '@/actions/posts';
+
 export default function NewPost() {
+  const ref = useRef<HTMLFormElement>(null);
+
+  const handleCreatePost = async (formData: FormData) => {
+    // validate the form data
+    const validation = PostSchema.safeParse(formData);
+    if (!validation.success) {
+      const errors = validation.error.flatten((issue) => issue.message);
+
+      if (errors.fieldErrors.title) {
+        console.error(`Title: ${errors.fieldErrors.title}`);
+      }
+
+      if (errors.fieldErrors.content) {
+        console.error(`Content: ${errors.fieldErrors.content}`);
+      }
+
+      return;
+    }
+
+    // check for any errors on the backend
+    const result = await createPost(validation.data);
+    if (result?.error) {
+      console.error(result.error);
+      return;
+    }
+
+    // reset the form
+    ref.current?.reset();
+  };
+
   return (
-    <form className="flex flex-col">
+    <form action={handleCreatePost} ref={ref} className="flex flex-col">
       <input
         className="mb-2 p-3 border rounded-md"
         name="title"
