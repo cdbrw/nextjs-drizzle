@@ -1,6 +1,33 @@
+'use client';
+
+import { useRef } from 'react';
+
+import { createPost } from '@/actions/posts';
+
 export default function NewPost() {
+  const ref = useRef<HTMLFormElement>(null);
+
+  const handleCreatePost = async (formData: FormData) => {
+    const newPost = {
+      title: formData.get('title'),
+      content: formData.get('content'),
+    };
+
+    // 1. validate the form data
+
+    // 2. check if validation failed
+
+    const result = await createPost(formData);
+    if (result?.error) {
+      console.error(result.error);
+      return;
+    }
+
+    ref.current?.reset();
+  };
+
   return (
-    <form className="flex flex-col">
+    <form action={handleCreatePost} ref={ref} className="flex flex-col">
       <input
         className="mb-2 p-3 border rounded-md"
         name="title"
