@@ -9,24 +9,30 @@ export default function NewPost() {
   const ref = useRef<HTMLFormElement>(null);
 
   const handleCreatePost = async (formData: FormData) => {
+    const newPost = {
+      title: formData.get('title'),
+      content: formData.get('content'),
+    };
+
     // validate the form data
-    const validation = PostSchema.safeParse(formData);
+    const validation = PostSchema.safeParse(newPost);
+
     if (!validation.success) {
       const errors = validation.error.flatten((issue) => issue.message);
 
       if (errors.fieldErrors.title) {
-        console.error(`Title: ${errors.fieldErrors.title}`);
+        console.error(`${errors.fieldErrors.title}`);
       }
 
       if (errors.fieldErrors.content) {
-        console.error(`Content: ${errors.fieldErrors.content}`);
+        console.error(`${errors.fieldErrors.content}`);
       }
 
       return;
     }
 
     // check for any errors on the backend
-    const result = await createPost(validation.data);
+    const result = await createPost(formData);
     if (result?.error) {
       console.error(result.error);
       return;

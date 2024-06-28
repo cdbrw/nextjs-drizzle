@@ -18,8 +18,11 @@ export default async function PostsList() {
           key={post.id}
           href={`/posts/${post.id}`}
         >
-          <li className="hover:pl-2 ">
-            <h2>{post.title}</h2>
+          <li>
+            <h2>
+              <span>{new Date(post.createdAt).toLocaleDateString()}</span> -{' '}
+              <span>{post.title}</span>
+            </h2>
           </li>
         </Link>
       ))}
