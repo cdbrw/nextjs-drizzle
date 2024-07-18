@@ -1,4 +1,4 @@
-import { ZodType, z } from 'zod';
+import { z } from 'zod';
 import { createInsertSchema } from 'drizzle-zod';
 
 import { posts } from '@/db/schema';

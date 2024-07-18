@@ -1,6 +1,7 @@
+import { Suspense } from 'react';
+
 import PostsList from '@/components/posts-list';
 import Title from '@/components/title';
-import { Suspense } from 'react';
 
 export const metadata = {
   title: 'Posts | cdbrw',
