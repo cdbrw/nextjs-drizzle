@@ -3,13 +3,6 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-interface NavLink {
-  href: string;
-  label: string;
-}
-
-const navLinks: NavLink[] = [{ href: '/posts', label: 'Posts' }];
-
 export default function Header() {
   const pathname = usePathname();
 
@@ -20,17 +13,14 @@ export default function Header() {
       </Link>
       <nav>
         <ul className="flex gap-x-5 text-[14px]">
-          {navLinks.map(({ href, label }) => (
-            <Link
-              key={href}
-              href={href}
-              className={`hover:text-stone-900 ${
-                pathname === href ? 'text-stone-900' : 'text-stone-400'
-              }`}
-            >
-              <li>{label}</li>
-            </Link>
-          ))}
+          <Link
+            href="/posts"
+            className={`hover:text-stone-900 ${
+              pathname === '/posts' ? 'text-stone-900' : 'text-stone-400'
+            }`}
+          >
+            <li>Posts</li>
+          </Link>
         </ul>
       </nav>
     </header>
